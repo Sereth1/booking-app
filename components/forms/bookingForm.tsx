@@ -124,7 +124,7 @@ const BookingForm: React.FC = () => {
                                     ? 'bg-red-500 text-white cursor-not-allowed opacity-50'
                                     : 'hover:bg-blue-200'
                             }
-                            calendarClassName="scale-150 shadow-lg rounded-lg" // Increased scale for a bigger calendar
+                            calendarClassName="scale-150 shadow-lg rounded-lg"
                         />
                     </div>
                 </div>

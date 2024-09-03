@@ -1,27 +1,31 @@
-import pool from "@/lib/db";
-import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
-import { format } from 'date-fns';
-const AUTH = process.env.TOKEN;
+import crypto from 'crypto';
+import nodemailer from 'nodemailer';
+import { NextResponse } from 'next/server';
+import pool from '@/lib/db';
+
+const generateToken = () => {
+    return crypto.randomBytes(32).toString('hex');
+};
 
 export async function POST(req: Request) {
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader || authHeader !== `Bearer ${AUTH}`) {
-        return NextResponse.json({ error: 'Unauthorized', message: 'Invalid or missing Authorization header' }, { status: 401 });
+    if (!authHeader || authHeader !== `Bearer ${process.env.TOKEN}`) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     try {
         const data = await req.json();
-        const { name, email, phone, checkIn, checkOut, verified } = data;
+        const { name, email, phone, checkIn, checkOut } = data;
 
-        const checkInDate = format(new Date(checkIn), 'yyyy-MM-dd');
-        const checkOutDate = format(new Date(checkOut), 'yyyy-MM-dd');
+        const token = generateToken();
 
         const query = `
-            INSERT INTO bookings (name, email, phone, check_in, check_out, verified)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO bookings (name, email, phone, check_in, check_out, verified, token)
+            VALUES (?, ?, ?, ?, ?, false, ?)
         `;
-        await pool.query(query, [name, email, phone, checkInDate, checkOutDate, verified]);
+        await pool.query(query, [name, email, phone, checkIn, checkOut, token]);
+
+        const verificationUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/verify?token=${token}`;
 
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
@@ -37,7 +41,7 @@ export async function POST(req: Request) {
             from: process.env.EMAIL_USER,
             to: email,
             subject: 'Booking Verification',
-            text: `Dear ${name},\n\nPlease verify your booking from ${checkInDate} to ${checkOutDate}. If this was not you, please dismiss this email.\n\nThank you!`,
+            text: `Dear ${name},\n\nPlease verify your booking by clicking on the following link: ${verificationUrl}\n\nThank you!`,
         };
 
         await transporter.sendMail(mailOptions);
