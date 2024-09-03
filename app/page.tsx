@@ -5,7 +5,7 @@ import BookingForm from "@/components/forms/bookingForm";
 export default function Home() {
   return (
 
-    <div>
+    <div className="p-10">
       <IntroHeader />
       <Carouzela />
       <BookingForm /></div>

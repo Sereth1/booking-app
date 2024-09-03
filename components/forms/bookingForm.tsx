@@ -61,56 +61,54 @@ const BookingForm: React.FC = () => {
             console.error('Error creating booking:', error);
             alert(`An error occurred while creating the booking: ${error.response?.data?.message || error.message}`);
         }
-
     };
 
     return (
-        <div>
-
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 p-6 bg-white shadow-md rounded-lg max-w-5xl mx-auto">
-                <form onSubmit={handleSubmit} className="w-full lg:w-1/2 space-y-4">
-                    <div className="mb-4">
+        <div className=" flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row  items-start lg:items-center gap-60 p-8 bg-white shadow-2xl rounded-3xl max-w-6xl w-full mx-auto">
+                <form onSubmit={handleSubmit} className="w-full lg:w-1/2 space-y-6">
+                    <div>
                         <label className="block text-lg font-semibold text-gray-700">Name</label>
                         <input
                             type="text"
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
-                            className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:ring focus:ring-blue-300 focus:outline-none"
+                            className="mt-2 p-4 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
                             required
                         />
                     </div>
-                    <div className="mb-4">
+                    <div>
                         <label className="block text-lg font-semibold text-gray-700">Email</label>
                         <input
                             type="email"
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
-                            className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:ring focus:ring-blue-300 focus:outline-none"
+                            className="mt-2 p-4 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
                             required
                         />
                     </div>
-                    <div className="mb-4">
+                    <div>
                         <label className="block text-lg font-semibold text-gray-700">Phone</label>
                         <input
                             type="text"
                             name="phone"
                             value={formData.phone}
                             onChange={handleChange}
-                            className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:ring focus:ring-blue-300 focus:outline-none"
+                            className="mt-2 p-4 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
                             required
                         />
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 text-white text-lg font-semibold py-3 rounded-lg hover:bg-blue-700 focus:ring focus:ring-blue-300 focus:outline-none"
+                        className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-lg font-semibold py-4 rounded-lg hover:bg-gradient-to-l focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
                     >
                         Book Now
                     </button>
                 </form>
 
-                <div className="w-full flex justify-center">
+                <div className="">
                     <div className="w-full lg:w-[30rem]">
                         <DatePicker
                             selected={formData.checkIn ?? undefined}
@@ -124,19 +122,13 @@ const BookingForm: React.FC = () => {
                             dayClassName={date =>
                                 validBookedDates.some(d => d.getTime() === date.getTime())
                                     ? 'bg-red-500 text-white cursor-not-allowed opacity-50'
-                                    : ''
+                                    : 'hover:bg-blue-200'
                             }
-                            calendarClassName="scale-150"
+                            calendarClassName="scale-150 shadow-lg rounded-lg" // Increased scale for a bigger calendar
                         />
-
                     </div>
-
-
                 </div>
-
             </div>
-
-
         </div>
     );
 };
