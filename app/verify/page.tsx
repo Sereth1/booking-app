@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 
+// Main component
 const VerifyBooking = () => {
     const [message, setMessage] = useState('');
     const searchParams = useSearchParams();
@@ -25,17 +26,6 @@ const VerifyBooking = () => {
         verifyBooking();
     }, [token]);
 
-    if (!token) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-100">
-                <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                    <h1 className="text-2xl font-semibold mb-4">Booking Verification</h1>
-                    <p className="text-gray-600">Token is missing or invalid.</p>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-6 rounded-lg shadow-md text-center">
@@ -46,4 +36,13 @@ const VerifyBooking = () => {
     );
 };
 
-export default VerifyBooking;
+// Page wrapper component with Suspense
+const VerifyPage = () => {
+    return (
+        <Suspense fallback={<div>Loading verification...</div>}>
+            <VerifyBooking />
+        </Suspense>
+    );
+};
+
+export default VerifyPage;
