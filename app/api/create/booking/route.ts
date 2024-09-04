@@ -3,6 +3,8 @@ import nodemailer from 'nodemailer';
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 const generateToken = () => {
     return crypto.randomBytes(32).toString('hex');
 };
