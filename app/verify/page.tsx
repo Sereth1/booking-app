@@ -36,7 +36,6 @@ const VerifyBooking = () => {
     );
 };
 
-// Page wrapper component with Suspense
 const VerifyPage = () => {
     return (
         <Suspense fallback={<div>Loading verification...</div>}>
