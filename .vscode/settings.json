@@ -13,6 +13,20 @@
       "password": "T3r4st10s",
       "database": "airbnb_booking",
       "username": "root"
+    },
+    {
+      "mysqlOptions": {
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
+      },
+      "previewLimit": 50,
+      "server": "202.61.224.164",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "serverMysql",
+      "database": "airbnb_booking",
+      "username": "n1ghtw0olf",
+      "password": "t3r4st10s"
     }
   ]
 }

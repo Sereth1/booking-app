@@ -4,8 +4,43 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import useGetDate from '../hooks/useGetDate';
 import axios from 'axios';
+import { Bounce, toast } from 'react-toastify';
 
 const BookingForm: React.FC = () => {
+    const successNotify = () => toast.success('Thank you for booking at Lampa You will get an verification e-mail ', {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+    });
+
+    const failedNotify = (error: any) => toast.warn(`An error occurred while creating the booking: ${error.response?.data?.message || error.message}`, {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+    });
+    const dateNotify = () => toast.warn(`Choose correct date`, {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+    });
     const { bookedDates } = useGetDate();
     const AUTH = process.env.NEXT_PUBLIC_TOKEN;
     const [formData, setFormData] = useState({
@@ -41,7 +76,7 @@ const BookingForm: React.FC = () => {
         e.preventDefault();
 
         if (!formData.checkIn || !formData.checkOut) {
-            alert('Please select valid check-in and check-out dates.');
+            dateNotify()
             return;
         }
 
@@ -56,14 +91,16 @@ const BookingForm: React.FC = () => {
                 }
             );
             console.log('Response:', response.data);
-            alert('Booking created and verification email sent!');
+            successNotify()
+
         } catch (error: any) {
             console.error('Error creating booking:', error);
-            alert(`An error occurred while creating the booking: ${error.response?.data?.message || error.message}`);
+            failedNotify(error)
         }
     };
 
-    return (
+    return (<div>
+
         <div className=" flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row  items-start lg:items-center gap-60 p-8 bg-white shadow-2xl rounded-3xl max-w-6xl w-full mx-auto">
                 <form onSubmit={handleSubmit} className="w-full lg:w-1/2 space-y-6">
@@ -130,6 +167,7 @@ const BookingForm: React.FC = () => {
                 </div>
             </div>
         </div>
+    </div>
     );
 };
 

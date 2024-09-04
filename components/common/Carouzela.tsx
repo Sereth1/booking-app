@@ -5,8 +5,6 @@ import {
     Carousel,
     CarouselContent,
     CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
 } from "@/components/ui/carousel";
 import React from "react";
 import Image from "next/image";
@@ -20,7 +18,6 @@ export function Carouzela() {
 
     return (
         <Carousel
-
             plugins={[plugin.current]}
             className="w-full h-screen"
             onMouseEnter={() => plugin.current.stop()}
@@ -45,8 +42,6 @@ export function Carouzela() {
                     </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
         </Carousel>
     );
 }

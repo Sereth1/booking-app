@@ -17,13 +17,16 @@ export async function POST(req: Request) {
         const data = await req.json();
         const { name, email, phone, checkIn, checkOut } = data;
 
+        const formattedCheckIn = new Date(checkIn).toISOString().split('T')[0];
+        const formattedCheckOut = new Date(checkOut).toISOString().split('T')[0];
+
         const token = generateToken();
 
         const query = `
             INSERT INTO bookings (name, email, phone, check_in, check_out, verified, token)
             VALUES (?, ?, ?, ?, ?, false, ?)
         `;
-        await pool.query(query, [name, email, phone, checkIn, checkOut, token]);
+        await pool.query(query, [name, email, phone, formattedCheckIn, formattedCheckOut, token]);
 
         const verificationUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/verify?token=${token}`;
 
